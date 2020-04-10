@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ProyectoInmobiliaria.Models.Inquilino>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Inquilinos</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdInq)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dni)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DireccionTrabajo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdInq)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dni)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DireccionTrabajo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.IdInq }) |
+                @Html.ActionLink("Details", "Details", new { id = item.IdInq }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.IdInq })
+</tr>
+}
+    </tbody>
+</table>

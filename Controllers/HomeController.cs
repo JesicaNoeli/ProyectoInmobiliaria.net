@@ -12,7 +12,7 @@ namespace ProyectoInmobiliaria.Controllers
     {
         public IActionResult Index()
         {
-          
+            
             return View();
         }
 

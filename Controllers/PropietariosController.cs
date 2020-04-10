@@ -50,24 +50,25 @@ namespace ProyectoInmobiliaria.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
         // GET: Propietarios/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var p = repositorioPropietario.ObtenerPorId(id);
+            return View(p);
         }
 
         // POST: Propietarios/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Propietario p)
         {
             try
             {
-                // TODO: Add update logic here
+                int res = repositorioPropietario.Modificacion(p);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -80,17 +81,18 @@ namespace ProyectoInmobiliaria.Controllers
         // GET: Propietarios/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var i = repositorioPropietario.ObtenerPorId(id);
+            return View(i);
         }
 
         // POST: Propietarios/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Propietario p)
         {
             try
             {
-                // TODO: Add delete logic here
+                int res = repositorioPropietario.Baja(id);
 
                 return RedirectToAction(nameof(Index));
             }

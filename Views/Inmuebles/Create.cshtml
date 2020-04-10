@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>Crear</h2>
 
 <h4>Inmueble</h4>
 <hr />
@@ -12,7 +12,12 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-          
+
+            <div class="form-group">
+                <label asp-for="Direccion" class="control-label"></label>
+                <input asp-for="Direccion" class="form-control" />
+                <span asp-validation-for="Direccion" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label class="control-label">Propietario</label>
                 <select class="form-control" name="IdProp">
@@ -22,11 +27,6 @@
                     }
                 </select>
                 <span asp-validation-for="IdProp" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Tipo" class="control-label"></label>

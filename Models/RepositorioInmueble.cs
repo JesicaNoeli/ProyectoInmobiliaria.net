@@ -66,7 +66,7 @@ namespace ProyectoInmobiliaria.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = "UPDATE Inmuebles SET " +
-					"Direccion=@direccion, Ambientes=@ambientes, Uso=@uso, Disponible=@disponible, Tipo=@tipo, Costo=@costo, IdProp=@propietarioId " +
+					"Direccion=@direccion, CantAmbientes=@ambientes, Uso=@uso, Disponible=@disponible, Tipo=@tipo, Costo=@costo, IdProp=@propietarioId " +
 					"WHERE IdInm = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -132,7 +132,7 @@ namespace ProyectoInmobiliaria.Models
 			Inmueble inm = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT IdInm, Direccion, CantAmbientes, Tipo, Uso, Costo, IdProp, Disponible, p.Nombre, p.Apellido" +
+				string sql = $"SELECT IdInm, Direccion, CantAmbientes, Tipo, Uso, Costo, i.IdProp, Disponible, p.Nombre, p.Apellido" +
 					$" FROM Inmuebles i INNER JOIN Propietarios p ON i.IdProp = p.IdProp" +
 					$" WHERE IdInm=@id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
@@ -155,9 +155,9 @@ namespace ProyectoInmobiliaria.Models
 							Disponible = reader.GetBoolean(7),
 							Propietario = new Propietario
 							{
-								IdProp = reader.GetInt32(8),
-								Nombre = reader.GetString(9),
-								Apellido = reader.GetString(10),
+								//IdProp = reader.GetInt32(8),
+								Nombre = reader.GetString(8),
+								Apellido = reader.GetString(9),
 							}
 						};
 					}

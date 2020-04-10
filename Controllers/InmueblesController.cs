@@ -69,34 +69,36 @@ namespace ProyectoInmobiliaria.Controllers
         // POST: Inmuebles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Inmueble i)
         {
             try
             {
-                // TODO: Add update logic here
-
+               
+                int res = repositorioInmueble.Modificacion(i);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Propietarios = repositorioPropietario.ObtenerTodos();
+                return RedirectToAction(nameof(Index));
             }
         }
 
         // GET: Inmuebles/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var i = repositorioInmueble.ObtenerPorId(id);
+            return View(i);
         }
 
         // POST: Inmuebles/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Inmueble i)
         {
             try
             {
-                // TODO: Add delete logic here
+                int res = repositorioInmueble.Baja(id);
 
                 return RedirectToAction(nameof(Index));
             }

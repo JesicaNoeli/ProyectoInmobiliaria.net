@@ -1,0 +1,56 @@
+﻿@model ProyectoInmobiliaria.Models.Inquilino
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Eliminar</h2>
+
+<h3>Esta seguro que quiere eliminar este inquilino?</h3>
+<div>
+    <h4>Inquilino</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdInq)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdInq)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Apellido)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Dni)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Dni)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DireccionTrabajo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DireccionTrabajo)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
