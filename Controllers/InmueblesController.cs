@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +36,7 @@ namespace ProyectoInmobiliaria.Controllers
         }
 
         // GET: Inmuebles/Create
+        [Authorize(Policy = "Permitidos")]
         public ActionResult Create()
         {
             ViewBag.Propietarios = repositorioPropietario.ObtenerTodos();
@@ -44,6 +46,7 @@ namespace ProyectoInmobiliaria.Controllers
         // POST: Inmuebles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Permitidos")]
         public ActionResult Create(Inmueble i)
         {
             try
@@ -59,6 +62,7 @@ namespace ProyectoInmobiliaria.Controllers
         }
 
         // GET: Inmuebles/Edit/5
+        [Authorize(Policy = "Permitidos")]
         public ActionResult Edit(int id)
         {
             ViewBag.Propietarios = repositorioPropietario.ObtenerTodos();
@@ -69,6 +73,7 @@ namespace ProyectoInmobiliaria.Controllers
         // POST: Inmuebles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Permitidos")]
         public ActionResult Edit(int id, Inmueble i)
         {
             try
@@ -85,6 +90,7 @@ namespace ProyectoInmobiliaria.Controllers
         }
 
         // GET: Inmuebles/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             var i = repositorioInmueble.ObtenerPorId(id);
@@ -94,6 +100,7 @@ namespace ProyectoInmobiliaria.Controllers
         // POST: Inmuebles/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Inmueble i)
         {
             try

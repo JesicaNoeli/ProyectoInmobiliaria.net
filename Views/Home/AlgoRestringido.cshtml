@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "AlgoRestringido";
+}
+
+<h4>
+    <b>
+        @foreach (var u in User.Claims)
+        {
+            @u.Value<br />}
+    </b>
+</h4>
+<li><a class="nav-link" href="../Contrato/Index">Administrar Contratos</a></li>
+<li><a class="nav-link" href="../Inmuebles/Index">Administrar Inmuebles</a></li>
+<li><a class="nav-link" href="../Inquilinos/Index">Administrar Inquilinos</a></li>
+<li><a class="nav-link" href="../Pago/Index">Administrar Pagos</a></li>
+<li><a class="nav-link" href="../Propietarios/Index">Administrar Propietarios</a></li>

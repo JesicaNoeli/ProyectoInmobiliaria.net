@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +21,7 @@ namespace ProyectoInmobiliaria.Controllers
             repositorioPropietario = new RepositorioPropietario(configuration);
         }
         // GET: Propietarios
+        [Authorize(Policy = "Permitidos")]
         public ActionResult Index()
         {
             var lista = repositorioPropietario.ObtenerTodos();
@@ -32,6 +35,7 @@ namespace ProyectoInmobiliaria.Controllers
         }
 
         // GET: Propietarios/Create
+        [Authorize(Policy = "Permitidos")]
         public ActionResult Create()
         {
             return View();
@@ -40,6 +44,7 @@ namespace ProyectoInmobiliaria.Controllers
         // POST: Propietarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Permitidos")]
         public ActionResult Create(Propietario p)
         {
             try
@@ -54,9 +59,12 @@ namespace ProyectoInmobiliaria.Controllers
             }
         }
 
-        // GET: Propietarios/Edit/5
+        // GET: Propietarios/Edit/
+        [Authorize(Policy = "Permitidos")]
+        [Authorize]
         public ActionResult Edit(int id)
         {
+            
             var p = repositorioPropietario.ObtenerPorId(id);
             return View(p);
         }
@@ -64,6 +72,7 @@ namespace ProyectoInmobiliaria.Controllers
         // POST: Propietarios/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Permitidos")]
         public ActionResult Edit(int id, Propietario p)
         {
             try
@@ -77,8 +86,32 @@ namespace ProyectoInmobiliaria.Controllers
                 return View();
             }
         }
+        [Authorize(Policy = "Propietario")]
+        public ActionResult EditarPerfil(string email)
+        {
+           var prop = repositorioPropietario.ObtenerPorEmail(email);
+            //repositorioPropietario.Modificacion(prop);
+            return View(prop);
+        }
+
+       /* [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Propietario")]
+        public ActionResult EditarPerfil(int id, Propietario p)
+        {
+            try
+            {
+                int res = repositorioPropietario.Modificacion(p);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }*/
 
         // GET: Propietarios/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             var i = repositorioPropietario.ObtenerPorId(id);
@@ -88,6 +121,7 @@ namespace ProyectoInmobiliaria.Controllers
         // POST: Propietarios/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Propietario p)
         {
             try
