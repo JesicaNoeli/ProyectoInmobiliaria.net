@@ -5,27 +5,51 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Configuration;
 using ProyectoInmobiliaria.Models;
 
 namespace ProyectoInmobiliaria.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IConfiguration configuration;
+        private readonly RepositorioInmueble repositorioInmueble;
+        private readonly RepositorioPropietario repositorioPropietario;
+
+        public HomeController(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+            repositorioInmueble = new RepositorioInmueble(configuration);
+            repositorioPropietario = new RepositorioPropietario(configuration);
+        }
         public IActionResult Index()
         {
             string saludo = User.Identity.IsAuthenticated ?
-                $"Hola {User.Identity.Name}": "Bienvenido";
+                $"Bienvenido {User.Identity.Name}": "Bienvenido  Visitante";
             ViewBag.Saludo = saludo;
-           
-            return View();
+
+            if (User.IsInRole("Administrador"))
+            {
+                return RedirectToAction(nameof(SuperRestringido));
+            }
+            else if (User.IsInRole("Empleado"))
+                {
+                return RedirectToAction(nameof(AlgoRestringido));
+            }
+            else if (User.IsInRole("Propietario"))
+            {
+                return RedirectToAction(nameof(Privado));
+            }
+            else
+            {
+                return View();
+            }
+
+
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-            
-            return View();
-        }
+       
 
         public IActionResult Contact()
         {
@@ -34,13 +58,11 @@ namespace ProyectoInmobiliaria.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+       
         public IActionResult Galeria()
         {
-            return View();
+            var lista = repositorioInmueble.ObtenerTodos();
+            return View(lista);
         }
 
 
@@ -50,11 +72,15 @@ namespace ProyectoInmobiliaria.Controllers
             return View();
         }
 
-        [Authorize(Policy ="Propietario")]
+        [Authorize(Policy = "Propietario")]
         public IActionResult Privado()
         {
-            return View();
+                Propietario p = repositorioPropietario.ObtenerPorEmail(User.Identity.Name);
+                var lista = repositorioInmueble.BuscarPorPropietario(p.IdProp);
+                return View(lista);
+            
         }
+        
         [Authorize(Policy = "Empleado")]
         public IActionResult AlgoRestringido()
         {

@@ -17,7 +17,7 @@ namespace ProyectoInmobiliaria.Models
         public DateTime FechaInicio { get; set; }
         public DateTime FechaCierre { get; set; }
         public decimal Monto { get; set; }
-        public string Estado { get; set; }
+        public bool Vigente { get; set; }
 
     }
 }

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ProyectoInmobiliaria.Models.Pago>
+
+@{
+    ViewData["Title"] = "Ver";
+}
+
+<h2>Ver</h2>
+
+<p>
+    <h4>Contrato:@ViewBag.Contrato.IdContr Inquilino: @ViewBag.Contrato.Inquilino.Nombre  @ViewBag.Contrato.Inquilino.Apellido</h4>
+    <h4>Inmueble: @ViewBag.Contrato.Inmueble.Tipo @ViewBag.Contrato.Inmueble.Direccion</h4>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumPago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdContr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaPago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Importe)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPago)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumPago)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdContr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaPago)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Importe)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IdPago }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IdPago })
+                </td>
+
+            </tr>
+        }       @Html.ActionLink("Realizar Pago", "../Pago/Create", new { id = @ViewBag.Contrato.IdInm })
+    </tbody>
+</table>

@@ -16,12 +16,14 @@ namespace ProyectoInmobiliaria.Controllers
         private readonly IConfiguration configuration;
         private readonly RepositorioContrato repositorioContrato;
         private readonly RepositorioPago repositorioPago;
+        private readonly RepositorioInmueble repositorioInmueble;
 
         public PagoController(IConfiguration configuration)
         {
             this.configuration = configuration;
             repositorioContrato = new RepositorioContrato(configuration);
             repositorioPago = new RepositorioPago(configuration);
+            repositorioInmueble = new RepositorioInmueble(configuration);
         }
         // GET: Pago
         [Authorize(Policy = "Permitidos")]
@@ -39,9 +41,21 @@ namespace ProyectoInmobiliaria.Controllers
 
         // GET: Pago/Create
         [Authorize(Policy = "Permitidos")]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.Contrato = repositorioContrato.ObtenerTodos();
+            ViewBag.Contrato = repositorioContrato.ObtenerPorInm(id);
+            Contrato c = repositorioContrato.ObtenerPorInm(id);
+            IList<Pago> pagos = repositorioPago.ObtenerPorContr(c.IdContr);
+            if(pagos.Count == 0)
+            {
+                ViewBag.NumPago = 1;
+            }
+            else
+            {
+                int np = pagos.Count;
+                ViewBag.NumPago = np + 1;
+            }
+
             return View();
         }
 
@@ -55,14 +69,25 @@ namespace ProyectoInmobiliaria.Controllers
             {
                 // TODO: Add insert logic here
                 int res = repositorioPago.Alta(p);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Ver));
             }
             catch (Exception ex)
             {
+                ViewBag.Error = ex.Message;
+                
                 return View();
             }
         }
+        [Authorize(Policy = "Permitidos")]
+        public ActionResult Ver(int id)
+        {
+            ViewBag.Contrato = repositorioContrato.ObtenerPorInm(id);
+            Contrato c = repositorioContrato.ObtenerPorInm(id);
+            IList<Pago> pagos = repositorioPago.ObtenerPorContr(c.IdContr);
+            return View(pagos);
+        }
 
+     
         // GET: Pago/Edit/5
         [Authorize(Policy = "Permitidos")]
         public ActionResult Edit(int id)
@@ -80,12 +105,15 @@ namespace ProyectoInmobiliaria.Controllers
             try
             {
                 // TODO: Add update logic here
-                repositorioPago.Modificacion(p);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
+               int res = repositorioPago.Modificacion(p);
                 return View();
+                
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return RedirectToAction(nameof(Index));
+
             }
         }
 
@@ -94,7 +122,7 @@ namespace ProyectoInmobiliaria.Controllers
         public ActionResult Delete(int id)
         {
             var p = repositorioPago.ObtenerPorId(id);
-            return View();
+            return View(p);
         }
 
         // POST: Pago/Delete/5
@@ -105,8 +133,8 @@ namespace ProyectoInmobiliaria.Controllers
         {
             try
             {
-              
-                repositorioPago.Baja(id);
+
+                int res = repositorioPago.Baja(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

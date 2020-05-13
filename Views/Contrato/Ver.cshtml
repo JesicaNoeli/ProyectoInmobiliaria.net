@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ProyectoInmobiliaria.Models.Contrato>
+
+@{
+    ViewData["Title"] = "Ver";
+}
+
+<h2>Ver</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IdContr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdInq)
+            </th>
+            <th>
+                <label>Inquilino</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdInm)
+            </th>
+            <th>
+                <label>Ubicacion Inmueble</label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaCierre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Monto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vigente)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdContr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdInq)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inquilino.Nombre) @Html.DisplayFor(modelItem => item.Inquilino.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdInm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inmueble.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaCierre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vigente)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.IdContr}) |
+             
+                @Html.ActionLink("Delete", "Delete", new { id=item.IdContr })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

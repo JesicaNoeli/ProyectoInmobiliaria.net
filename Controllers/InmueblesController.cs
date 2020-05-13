@@ -30,9 +30,10 @@ namespace ProyectoInmobiliaria.Controllers
         }
 
         // GET: Inmuebles/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Disponibles(int id)
         {
-            return View();
+            var lista = repositorioInmueble.ObtenerSiDisponible();
+            return View(lista);
         }
 
         // GET: Inmuebles/Create
@@ -52,7 +53,7 @@ namespace ProyectoInmobiliaria.Controllers
             try
             {
                 int res = repositorioInmueble.Alta(i);
-
+                repositorioInmueble.Disponible(i);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -60,7 +61,11 @@ namespace ProyectoInmobiliaria.Controllers
                 return View();
             }
         }
-
+        public ActionResult EditDeUs(int id)
+        {
+            var i = repositorioInmueble.ObtenerPorId(id);
+            return View(i);
+        }
         // GET: Inmuebles/Edit/5
         [Authorize(Policy = "Permitidos")]
         public ActionResult Edit(int id)
@@ -80,7 +85,7 @@ namespace ProyectoInmobiliaria.Controllers
             {
                
                 int res = repositorioInmueble.Modificacion(i);
-                return RedirectToAction(nameof(Index));
+                return View();
             }
             catch (Exception ex)
             {

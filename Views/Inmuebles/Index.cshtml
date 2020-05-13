@@ -5,6 +5,7 @@
 }
 
 <h2>Inmuebles</h2>
+<h4><a class="nav-link" href="../Inmuebles/Disponibles">Ver solo disponibles</a></h4>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -67,9 +68,16 @@
                 @Html.DisplayFor(modelItem => item.Disponible)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {id=item.IdInm}) |
-                @Html.ActionLink("Details", "Details", new { id = item.IdInm }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.IdInm })
+                @if (User.IsInRole("Permitidos"))
+                {
+
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdInm }) 
+                    @Html.ActionLink("Ver Contratos", "../Contrato/Ver", new { id = item.IdInm }) 
+                   @Html.ActionLink("Ver Pagos", "../Pago/Ver", new { id = item.IdInm }) 
+                }
+                @if(User.IsInRole("Administrador")) {
+                     @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInm });
+                 }
             </td>
         </tr>
 }

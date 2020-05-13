@@ -87,6 +87,47 @@ namespace ProyectoInmobiliaria.Models
 			return res;
 		}
 
+		public int NoDisponible(Inmueble inm)
+		{
+			int i = -1;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"UPDATE Inmuebles SET Disponible= {0} " +
+					$"WHERE IdInm = @id";
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					//command.Parameters.AddWithValue("@disponible", inm.Disponible);
+					command.Parameters.AddWithValue("@id", inm.IdInm);
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					i = command.ExecuteNonQuery();
+					connection.Close();
+				}
+			}
+			return i;
+		}
+
+		public int Disponible(Inmueble inm)
+		{
+			int i = -1;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"UPDATE Inmuebles SET Disponible= {1} " +
+					$"WHERE IdInm = @id";
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					//command.Parameters.AddWithValue("@disponible", inm.Disponible);
+					command.Parameters.AddWithValue("@id", inm.IdInm);
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					i = command.ExecuteNonQuery();
+					connection.Close();
+				}
+			}
+			return i;
+		}
+
+
 		public IList<Inmueble> ObtenerTodos()
 		{
 			IList<Inmueble> res = new List<Inmueble>();
@@ -167,15 +208,54 @@ namespace ProyectoInmobiliaria.Models
 			return inm;
 		}
 
+		public IList<Inmueble> ObtenerSiDisponible()
+		{
+			IList<Inmueble> inm = new List<Inmueble>();
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"SELECT IdInm, Direccion, CantAmbientes, Tipo, Uso, Costo, i.IdProp, Disponible, p.Nombre, p.Apellido" +
+					$" FROM Inmuebles i INNER JOIN Propietarios p ON i.IdProp = p.IdProp" +
+					$" WHERE Disponible= {1} ";
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+					while (reader.Read())
+					{
+						Inmueble i = new Inmueble
+						{
+							IdInm = reader.GetInt32(0),
+							Direccion = reader.GetString(1),
+							CantAmbientes = reader.GetInt32(2),
+							Tipo = reader.GetString(3),
+							Uso = reader.GetString(4),
+							Costo = reader.GetDecimal(5),
+							IdProp = reader.GetInt32(6),
+							Disponible = reader.GetBoolean(7),
+							Propietario = new Propietario
+							{
+								Nombre = reader.GetString(8),
+								Apellido = reader.GetString(9),
+							}
+						};
+						inm.Add(i);
+					}
+					connection.Close();
+				}
+			}
+			return inm;
+		}
+
 		public IList<Inmueble> BuscarPorPropietario(int idProp)
 		{
 			List<Inmueble> res = new List<Inmueble>();
 			Inmueble inm = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT IdInm, Direccion, CantAmbientes, Tipo, Uso, Costo, IdProp, Disponible, p.Nombre, p.Apellido" +
+				string sql = $"SELECT IdInm, Direccion, CantAmbientes, Tipo, Uso, Costo, i.IdProp, Disponible, p.Nombre, p.Apellido" +
 					$" FROM Inmuebles i INNER JOIN Propietarios p ON i.IdProp = p.IdProp" +
-					$" WHERE IdProp=@idPropietario";
+					$" WHERE i.IdProp=@idPropietario";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@idPropietario", SqlDbType.Int).Value = idProp;
@@ -196,9 +276,8 @@ namespace ProyectoInmobiliaria.Models
 							Disponible = reader.GetBoolean(7),
 							Propietario = new Propietario
 							{
-								IdProp = reader.GetInt32(8),
-								Nombre = reader.GetString(9),
-								Apellido = reader.GetString(10),
+								Nombre = reader.GetString(8),
+								Apellido = reader.GetString(9)
 							}
 						};
 						res.Add(inm);

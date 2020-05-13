@@ -1,7 +1,9 @@
-﻿
+﻿@model IEnumerable<ProyectoInmobiliaria.Models.Inmueble>
 @{
     ViewData["Title"] = "Privado";
 }
+
+<h2>Mis Propiedades</h2>
 
 <h4>
     <b>
@@ -11,4 +13,62 @@
     </b>
 </h4>
 
-<li>@Html.ActionLink("Editar Perfil", "EditarPerfil", new { email = User.Identity.Name })</li>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantAmbientes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Costo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Disponible)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantAmbientes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Costo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disponible)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "../Inmuebles/EditDeUs", new { id = item.IdInm })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<li><a class="nav-link" href="../Usuario/Logout">Cerrar Sesion</a></li>

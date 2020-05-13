@@ -52,9 +52,31 @@ namespace ProyectoInmobiliaria.Controllers
         {
             try
             {
-                int res = repositorioUsuario.Alta(i);
+                if (ModelState.IsValid)
+                {
+                    Usuario us=repositorioUsuario.ObtenerPorEmail(i.Email);
+                    if (us == null) {
 
-                return RedirectToAction(nameof(Index));
+                    i.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: i.Clave,
+                        salt: System.Text.Encoding.ASCII.GetBytes("Salt"),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 1000,
+                        numBytesRequested: 256 / 8));
+                    int res = repositorioUsuario.Alta(i);
+
+                    return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        TempData["Mensaje"] = "El correo ya se encuentra registrado";
+                        return View();
+                    }
+                }
+                else
+                {
+                    return View();
+                }
             }
             catch
             {

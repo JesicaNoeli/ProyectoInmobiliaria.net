@@ -41,9 +41,9 @@ namespace ProyectoInmobiliaria.Controllers
 
         // GET: Contrato/Create
         [Authorize(Policy = "Permitidos")]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.Inmuebles = repositorioInmueble.ObtenerTodos();
+            ViewBag.Inmueble = repositorioInmueble.ObtenerPorId(id);
             ViewBag.Inquilinos = repositorioInquilino.ObtenerTodos();
             return View();
         }
@@ -58,22 +58,40 @@ namespace ProyectoInmobiliaria.Controllers
             {
                 // TODO: Add insert logic here
                 int res = repositorioContrato.Alta(c);
+                Inmueble inm = repositorioInmueble.ObtenerPorId(c.IdInm);
+                repositorioInmueble.NoDisponible(inm);
+                repositorioContrato.Vigente(c);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                ViewBag.Inmuebles = repositorioInmueble.ObtenerTodos();
+               
                 ViewBag.Inquilinos = repositorioInquilino.ObtenerTodos();
                 ViewBag.Error = ex.Message;
-                return View(c);
+                return RedirectToAction(nameof(Index));
             }
         }
+      
+        public ActionResult Ver(int id)
+        {
+            try
+            {
+                var lista = repositorioContrato.ObtenerTodosPorInm(id);
+                return View(lista);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View();
 
+            }
+        }
         // GET: Contrato/Edit/5
         [Authorize(Policy = "Permitidos")]
         public ActionResult Edit(int id)
         {
-             var i = repositorioContrato.ObtenerPorId(id);
+            ViewBag.Inquilinos = repositorioInquilino.ObtenerTodos();
+            var i = repositorioContrato.ObtenerPorId(id);
             return View(i);
         }
 
@@ -81,17 +99,18 @@ namespace ProyectoInmobiliaria.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "Permitidos")]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Contrato c)
         {
             try
             {
-                // TODO: Add update logic here
+                int res = repositorioContrato.Modificacion(c);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -121,7 +140,7 @@ namespace ProyectoInmobiliaria.Controllers
             {
                 // TODO: Add delete logic here
                 int res = repositorioContrato.Baja(id);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Ver));
             }
             catch (Exception ex)
             {

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<ProyectoInmobiliaria.Models.Inmueble>
+
+@{
+    ViewData["Title"] = "Disponibles";
+}
+
+<h2>Disponibles</h2>
+
+@if (User.IsInRole("Permitidos")) {
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            @if (User.IsInRole("Permitidos"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.IdInm)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdProp)
+                </th>
+            }
+                <th>
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tipo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Uso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CantAmbientes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Costo)
+                </th>
+
+                <th></th>
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            @if (User.IsInRole("Permitidos"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdInm)
+                </td>
+                <td>
+                    @(item.Propietario.Nombre + " " + item.Propietario.Apellido)
+                </td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantAmbientes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Costo)
+            </td>
+
+            <td>
+                @if (User.IsInRole("Permitidos"))
+                {
+
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdInm })
+                    @Html.ActionLink("Nuevo Contrato", "../Contrato/Create", new { id = item.IdInm })
+                }
+                @if (User.IsInRole("Administrador"))
+                {
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInm })
+
+                }
+
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
