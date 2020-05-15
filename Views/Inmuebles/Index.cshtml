@@ -4,8 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Inmuebles</h2>
+<h2>Todos los Inmuebles</h2>
 <h4><a class="nav-link" href="../Inmuebles/Disponibles">Ver solo disponibles</a></h4>
+<h4> @Html.ActionLink("Filtrar Libres Por Fecha", "Busqueda", "Inmuebles")</h4>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -41,45 +42,47 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdInm)
-            </td>
-            <td>
-                @(item.Propietario.Nombre + " " + item.Propietario.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantAmbientes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Costo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Disponible)
-            </td>
-            <td>
-                @if (User.IsInRole("Permitidos"))
-                {
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdInm)
+                </td>
+                <td>
+                    @(item.Propietario.Nombre + " " + item.Propietario.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CantAmbientes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Costo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disponible)
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrador") || User.IsInRole("Empleado"))
+                    {
 
-                    @Html.ActionLink("Editar", "Edit", new { id = item.IdInm }) 
-                    @Html.ActionLink("Ver Contratos", "../Contrato/Ver", new { id = item.IdInm }) 
-                   @Html.ActionLink("Ver Pagos", "../Pago/Ver", new { id = item.IdInm }) 
-                }
-                @if(User.IsInRole("Administrador")) {
-                     @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInm });
-                 }
-            </td>
-        </tr>
-}
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IdInm })
+                        @Html.ActionLink("Ver Contratos", "Ver", "Contrato", new { id = item.IdInm })
+
+                    }
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdInm });
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Proyecto_Inmobiliaria</title>
+    <title>@ViewData["Title"] - Proyecto Inmobiliaria</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,13 +26,26 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Proyecto_Inmobiliaria</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Proyecto Inmobiliaria</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Usuario" asp-action="Login">Ingresar</a></li>
+                   
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li><a asp-area="" asp-controller="Usuario" asp-action="Index">Usuarios</a></li>
+                    }
+                    @if (User.IsInRole("Administrador") || User.IsInRole("Empleado"))
+                    {
+                        <li><a asp-area="" asp-controller="Contrato" asp-action="Index">Contratos</a></li>
+                        <li><a asp-area="" asp-controller="Inmuebles" asp-action="Index">Inmuebles</a></li>
+                        <li><a asp-area="" asp-controller="Inquilinos" asp-action="Index">Inquilinos</a></li>
+                        <li><a asp-area="" asp-controller="Pago" asp-action="Index">Pagos</a></li>
+                        <li><a asp-area="" asp-controller="Propietarios" asp-action="Index">Propietarios</a></li>
+                        <li><a asp-area="" asp-controller="Usuario" asp-action="Logout">Cerrar Sesion</a></li>
+                    }
                 </ul>
             </div>
         </div>

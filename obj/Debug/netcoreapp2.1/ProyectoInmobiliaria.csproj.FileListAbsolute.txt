@@ -69,3 +69,8 @@ C:\Users\educacion 3.0\source\repos\Proyecto-Inmobiliaria\obj\Debug\netcoreapp2.
 C:\Users\educacion 3.0\source\repos\Proyecto-Inmobiliaria\obj\Debug\netcoreapp2.1\Razor\Views\Contrato\Ver.cshtml.g.cs
 C:\Users\educacion 3.0\source\repos\Proyecto-Inmobiliaria\obj\Debug\netcoreapp2.1\Razor\Views\Inmuebles\Disponibles.cshtml.g.cs
 C:\Users\educacion 3.0\source\repos\Proyecto-Inmobiliaria\obj\Debug\netcoreapp2.1\Razor\Views\Inmuebles\EditDeUs.cshtml.g.cs
+C:\Users\educacion 3.0\source\repos\Proyecto-Inmobiliaria\obj\Debug\netcoreapp2.1\Razor\Views\Inmuebles\InmPorProp.cshtml.g.cs
+C:\Users\educacion 3.0\source\repos\Proyecto-Inmobiliaria\obj\Debug\netcoreapp2.1\Razor\Views\Inmuebles\Busqueda.cshtml.g.cs
+C:\Users\educacion 3.0\source\repos\Proyecto-Inmobiliaria\obj\Debug\netcoreapp2.1\Razor\Views\Inmuebles\Filtrados.cshtml.g.cs
+C:\Users\educacion 3.0\source\repos\Proyecto-Inmobiliaria\obj\Debug\netcoreapp2.1\Razor\Views\Contrato\Busqueda.cshtml.g.cs
+C:\Users\educacion 3.0\source\repos\Proyecto-Inmobiliaria\obj\Debug\netcoreapp2.1\Razor\Views\Contrato\Filtrados.cshtml.g.cs

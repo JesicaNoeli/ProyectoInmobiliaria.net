@@ -4,16 +4,16 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Propietarios</h2>
+<h2>Todos los Propietarios</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Agregar Nuevo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdProp)
+               <label>ID Propietario</label>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -57,11 +57,14 @@
             </td>
             
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.IdProp }) |
-                @Html.ActionLink("Details", "Details", new { id = item.IdProp }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.IdProp })
-            </td>
-        </tr>
+                @Html.ActionLink("Editar", "Edit", new { id = item.IdProp }) |
+                @if (User.IsInRole("Administrador")) {
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.IdProp })
+                                                                                     }
+                    @Html.ActionLink("Ver Propiedades", "InmPorProp", "Propietario", new { id = item.IdProp })
+                </td>
+    
+            </tr>
 
 }
     </tbody>

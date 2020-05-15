@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ProyectoInmobiliaria.Models.Inmueble>
+@{
+    ViewData["Title"] = "Filtrados";
+}
+
+<h2>Filtrados</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+           
+            <th>
+                <label>Id Inmueble</label>
+            </th>
+            <th>
+            <label>Propietario</label>
+            </th>
+            <th>
+                <label>Direccion</label>
+            </th>
+            <th>
+                <label>Tipo</label>
+            </th>
+            <th>
+                <label>Uso</label>
+
+            </th>
+            <th>
+            <label>Cantidad de Ambientes</label>
+            
+            </th>
+            <th>
+                <label>Costo</label>
+             </th>
+            <th>
+                    <label>Disponible</label>
+                 
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (IList<Inmueble>)ViewBag.Filtrados)
+        {
+            <tr>
+                <td>
+                    @item.IdInm
+                </td>
+                <td>
+                    @(item.Propietario.Nombre + " " + item.Propietario.Apellido)
+                </td>
+                <td>
+                    @item.Direccion
+                </td>
+                <td>
+                    @item.Tipo
+                </td>
+                <td>
+                    @item.Uso
+                </td>
+                <td>
+                    @item.CantAmbientes
+                </td>
+                <td>
+                    @item.Costo
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disponible)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

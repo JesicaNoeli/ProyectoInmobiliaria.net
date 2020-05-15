@@ -289,6 +289,55 @@ namespace ProyectoInmobiliaria.Models
             return con;
 
         }
+        public IList<Contrato> VigentesPorFecha(DateTime f)
+        {
+            List<Contrato> res = new List<Contrato>();
+        Contrato con = null;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"SELECT IdContr, c.IdInq, c.IdInm, FechaInicio, FechaCierre, Monto, Vigente, "  +
+                    $"i.Nombre, i.Apellido, " +
+                    $"inm.Direccion, inm.Tipo" +
+                    $" FROM Contratos c INNER JOIN Inquilinos i ON c.IdInq = i.IdInq INNER JOIN Inmuebles inm ON c.IdInm = inm.IdInm " +
+                    $"WHERE  @fechaConsulta BETWEEN FechaInicio AND FechaCierre AND Vigente = {1} ";
+				
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.Parameters.Add("@fechaConsulta", SqlDbType.DateTime).Value = f;
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+					while (reader.Read())
+					{ 
+						con = new Contrato
+						{
+							IdContr = reader.GetInt32(0),
+							IdInm = reader.GetInt32(1),
+                            IdInq = reader.GetInt32(2),
+                            FechaInicio = reader.GetDateTime(3),
+							FechaCierre = reader.GetDateTime(4),
+							Monto = reader.GetDecimal(5),
+							Vigente= reader.GetBoolean(6),
+                            Inquilino = new Inquilino
+                            {
+                                Nombre = reader.GetString(7),
+                                Apellido = reader.GetString(8)
+                            },
+                            Inmueble = new Inmueble
+                            {
+                                Direccion = reader.GetString(9),
+                                Tipo = reader.GetString(10)
+                            }
+							
+							
+						};
+						res.Add(con);
+					}
+					connection.Close();
+				}
+			}
+			return res;
+		}
 
         public Contrato ObtenerPorInm(int id)
         {
@@ -344,5 +393,6 @@ namespace ProyectoInmobiliaria.Models
             return con;
 
         }
+        
     }
 }

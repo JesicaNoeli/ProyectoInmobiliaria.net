@@ -14,19 +14,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdPago)
+                <label>ID Pago</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumPago)
+                <label>Numero De Pago</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IdContr)
+                <label>Contrato</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaPago)
+                <label>Fecha De Pago</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Importe)
+                <label>Importe</label>
             </th>
             <th></th>
         </tr>
@@ -51,11 +51,13 @@
                     @Html.DisplayFor(modelItem => item.Importe)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.IdPago }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.IdPago })
+                    @Html.ActionLink("Editar", "Edit", new { id = item.IdPago }) |
+                    @if (User.IsInRole("Administrador")) { 
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.IdPago })
+                    }
                 </td>
 
             </tr>
-        }       @Html.ActionLink("Realizar Pago", "../Pago/Create", new { id = @ViewBag.Contrato.IdInm })
+        }       @Html.ActionLink("Realizar Pago", "Create", "Pago", new { id = @ViewBag.Contrato.IdInm })
     </tbody>
 </table>

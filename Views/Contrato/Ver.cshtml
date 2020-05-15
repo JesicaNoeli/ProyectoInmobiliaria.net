@@ -73,9 +73,12 @@
                 @Html.DisplayFor(modelItem => item.Vigente)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.IdContr}) |
-             
-                @Html.ActionLink("Delete", "Delete", new { id=item.IdContr })
+                @Html.ActionLink("Edit", "Edit", new { id = item.IdContr }) |
+                @Html.ActionLink("Ver Pagos", "Ver", "Pago", new { id = item.IdContr });
+                @if (User.IsInRole("Administrador"))
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IdContr })
+                }
             </td>
         </tr>
 }

@@ -4,31 +4,31 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Todos Los Usuarios</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Agregar Nuevo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdUs)
+                <label>ID Usuario</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nombre)
+                <label>Nombre</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Apellido)
+                <label>Apellido</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                <label>Email</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Clave)
+                <label>Clave</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rol)
+                <label>Rol</label>
             </th>
             <th></th>
         </tr>
@@ -55,9 +55,10 @@
                 @Html.DisplayFor(modelItem => item.Rol)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.IdUs }) |
-                @Html.ActionLink("Details", "Details", new { id = item.IdUs }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.IdUs })
+                @Html.ActionLink("Editar", "Edit", new { id = item.IdUs }) |
+                @if (User.IsInRole("Administrador")) {
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.IdUs })
+                }
             </td>
         </tr>
 }

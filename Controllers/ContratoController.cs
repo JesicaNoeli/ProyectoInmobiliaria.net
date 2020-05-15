@@ -59,7 +59,6 @@ namespace ProyectoInmobiliaria.Controllers
                 // TODO: Add insert logic here
                 int res = repositorioContrato.Alta(c);
                 Inmueble inm = repositorioInmueble.ObtenerPorId(c.IdInm);
-                repositorioInmueble.NoDisponible(inm);
                 repositorioContrato.Vigente(c);
                 return RedirectToAction(nameof(Index));
             }
@@ -141,6 +140,36 @@ namespace ProyectoInmobiliaria.Controllers
                 // TODO: Add delete logic here
                 int res = repositorioContrato.Baja(id);
                 return RedirectToAction(nameof(Ver));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View();
+            }
+        }
+        public ActionResult Filtrados()
+        {
+            return View();
+        }
+        public ActionResult Busqueda()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Busqueda(PorFechaView busqueda)
+        {
+            try
+            {
+                
+                    ViewBag.Filtrados = repositorioContrato.VigentesPorFecha(busqueda.FechaBusqueda);
+                    if (ViewBag.Filtrados.Count == 0)
+                    {
+                        ModelState.AddModelError("", "No se encontraron resultados");
+                        return View();
+                    }
+                    return View("Filtrados");
+                
             }
             catch (Exception ex)
             {

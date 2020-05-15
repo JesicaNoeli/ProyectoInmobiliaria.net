@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ProyectoInmobiliaria.Models.Contrato>
+
+@{
+    ViewData["Title"] = "Filtrados";
+}
+
+<h2>Filtrados</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label>ID Contrato</label>
+            </th>
+            <th>
+                <label>Inquilino</label>
+            </th>
+            <th>
+                <label>Direccion Inmueble</label>
+            </th>
+            <th>
+                <label>Tipo Inmueble</label>
+            </th>
+            <th>
+                <label>Fecha Inicio</label>
+            </th>
+            <th>
+                <label>Fecha Cierra</label>
+            </th>
+            <th>
+                <label>Monto</label>
+            </th>
+            <th>
+                <label>Vigente</label>
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in (IList<Contrato>)ViewBag.Filtrados) {
+        <tr>
+            <td>
+                @item.IdContr
+            </td>
+            <td>
+                @(item.Inquilino.Nombre + " " + item.Inquilino.Apellido)
+
+            </td>
+            <td>
+                @item.Inmueble.Direccion
+            </td>
+            <td>
+                @item.Inmueble.Tipo
+            </td>
+            <td>
+                @item.FechaInicio
+            </td>
+            <td>
+                @item.FechaCierre
+            </td>
+            <td>
+                @item.Monto
+            </td>
+            <td>
+                @item.Vigente
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.IdContr}) |
+                @if (User.IsInRole("Administrador")) {
+                @Html.ActionLink("Delete", "Delete", new { id=item.IdContr })
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

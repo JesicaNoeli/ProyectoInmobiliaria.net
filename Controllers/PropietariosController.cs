@@ -49,9 +49,18 @@ namespace ProyectoInmobiliaria.Controllers
         {
             try
             {
-                int res = repositorioPropietario.Alta(p);
-
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    int res = repositorioPropietario.Alta(p);
+                    TempData["Mensaje"] = "Propietario Registrado";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["Mensaje"] = "Error de registro Verifique los datos";
+                    return View();
+                }
+               
             }
             catch
             {
@@ -127,7 +136,7 @@ namespace ProyectoInmobiliaria.Controllers
             try
             {
                 int res = repositorioPropietario.Baja(id);
-
+                TempData["Mensaje"] = "Propietario Eliminado";
                 return RedirectToAction(nameof(Index));
             }
             catch

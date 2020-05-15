@@ -61,6 +61,12 @@ namespace ProyectoInmobiliaria.Controllers
                 return View();
             }
         }
+        public IActionResult InmPorProp(int id)
+        {
+            var i = repositorioInmueble.BuscarPorPropietario(id);
+            return View(i);
+
+        }
         public ActionResult EditDeUs(int id)
         {
             var i = repositorioInmueble.ObtenerPorId(id);
@@ -119,5 +125,41 @@ namespace ProyectoInmobiliaria.Controllers
                 return View();
             }
         }
-    }
+        public ActionResult Filtrados()
+        {
+            return View();
+        }
+        public ActionResult Busqueda()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Busqueda(BusquedaView busqueda)
+        {
+            try { 
+            if (busqueda.FechaInicio > busqueda.FechaCierre)
+            {
+                ModelState.AddModelError("", "La Fecha de Inicio debe ser anterior a la de cierre");
+                return View();
+            }
+            else
+            {
+                ViewBag.Filtrados = repositorioInmueble.BuscarDesocupados(busqueda.FechaInicio, busqueda.FechaCierre);
+                if (ViewBag.Filtrados.Count == 0)
+                {
+                    ModelState.AddModelError("", "No se encontraron resultados");
+                    return View();
+                }
+                return View("Filtrados");
+            }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View();
+            }
+        }
+
+        }
 }

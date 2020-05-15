@@ -69,7 +69,10 @@ namespace ProyectoInmobiliaria.Controllers
             {
                 // TODO: Add insert logic here
                 int res = repositorioPago.Alta(p);
-                return RedirectToAction(nameof(Ver));
+                TempData["Mensaje"] = "Pago registrado";
+
+                return View();
+
             }
             catch (Exception ex)
             {
@@ -81,9 +84,8 @@ namespace ProyectoInmobiliaria.Controllers
         [Authorize(Policy = "Permitidos")]
         public ActionResult Ver(int id)
         {
-            ViewBag.Contrato = repositorioContrato.ObtenerPorInm(id);
-            Contrato c = repositorioContrato.ObtenerPorInm(id);
-            IList<Pago> pagos = repositorioPago.ObtenerPorContr(c.IdContr);
+            ViewBag.Contrato = repositorioContrato.ObtenerPorId(id);
+            IList<Pago> pagos = repositorioPago.ObtenerPorContr(id);
             return View(pagos);
         }
 
@@ -104,15 +106,21 @@ namespace ProyectoInmobiliaria.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-               int res = repositorioPago.Modificacion(p);
-                return View();
-                
+                if (ModelState.IsValid) { 
+                    int res = repositorioPago.Modificacion(p);
+                    TempData["Mensaje"] = "Pago Modificado";
+                    return View();
+                }
+                else {
+                    TempData["Mensaje"] = "Error al modificar";
+                    return View();
+                }
+
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
-                return RedirectToAction(nameof(Index));
+                return View();
 
             }
         }
@@ -135,7 +143,8 @@ namespace ProyectoInmobiliaria.Controllers
             {
 
                 int res = repositorioPago.Baja(id);
-                return RedirectToAction(nameof(Index));
+                TempData["Mensaje"] = "Pago Eliminado";
+                return View();
             }
             catch
             {

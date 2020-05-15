@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>Nuevo</h2>
 <h4>Contrato:@ViewBag.Contrato.IdContr Inquilino: @ViewBag.Contrato.Inquilino.Nombre  @ViewBag.Contrato.Inquilino.Apellido</h4>
 <h4>Inmueble: @ViewBag.Contrato.Inmueble.Tipo @ViewBag.Contrato.Inmueble.Direccion</h4>
 <hr />
@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
-                <label asp-for="NumPago" class="control-label"></label>
+                <label asp-for="NumPago" class="control-label">Numero de Pago</label>
                 <input asp-for="NumPago" value=@ViewBag.NumPago class="form-control" readonly />
                 <span asp-validation-for="NumPago" class="text-danger"></span>
             </div>
@@ -23,7 +23,7 @@
                 <span asp-validation-for="IdContr" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FechaPago" class="control-label"></label>
+                <label asp-for="FechaPago" class="control-label">Fecha De Pago</label>
                 <input asp-for="FechaPago" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" readonly />
                 <span asp-validation-for="FechaPago" class="text-danger"></span>
             </div>
@@ -33,7 +33,7 @@
                 <span asp-validation-for="Importe" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Guardar" class="btn btn-default" />
             </div>
         </form>
     </div>

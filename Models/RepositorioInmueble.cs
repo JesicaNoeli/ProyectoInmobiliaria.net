@@ -287,5 +287,49 @@ namespace ProyectoInmobiliaria.Models
 			}
 			return res;
 		}
+
+		public IList<Inmueble> BuscarDesocupados(DateTime i, DateTime f)
+		{
+			List<Inmueble> res = new List<Inmueble>();
+			Inmueble inm = null;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"SELECT i.IdInm, Direccion, CantAmbientes, Tipo, Uso, Costo, i.IdProp, Disponible, " +
+					$"p.Nombre, p.Apellido "+ 
+					$" FROM Inmuebles i INNER JOIN Contratos c ON i.IdInm = c.IdInm  INNER JOIN Propietarios p ON i.IdProp = p.IdProp " +
+					$" WHERE ( @fechaInicio > FechaCierre) OR (FechaInicio > @fechaCierre)";
+				
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.Parameters.Add("@fechaCierre", SqlDbType.DateTime).Value = f;
+					command.Parameters.Add("@fechaInicio", SqlDbType.DateTime).Value = i;
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+					while (reader.Read())
+					{ 
+						inm = new Inmueble
+						{
+							IdInm = reader.GetInt32(0),
+							Direccion = reader.GetString(1),
+							CantAmbientes = reader.GetInt32(2),
+							Tipo = reader.GetString(3),
+							Uso = reader.GetString(4),
+							Costo = reader.GetDecimal(5),
+							IdProp = reader.GetInt32(6),
+							Disponible = reader.GetBoolean(7),
+							Propietario = new Propietario {
+								Nombre = reader.GetString(8),
+								Apellido = reader.GetString(9)
+							}
+							
+						};
+						res.Add(inm);
+					}
+					connection.Close();
+				}
+			}
+			return res;
+		}
 	}
 }

@@ -64,8 +64,9 @@ namespace ProyectoInmobiliaria.Controllers
                         iterationCount: 1000,
                         numBytesRequested: 256 / 8));
                     int res = repositorioUsuario.Alta(i);
+                        TempData["Mensaje"] = "Usuario Creado Con Exito";
 
-                    return RedirectToAction(nameof(Index));
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
@@ -75,6 +76,7 @@ namespace ProyectoInmobiliaria.Controllers
                 }
                 else
                 {
+                    TempData["Mensaje"] = "Uno o mas datos son incorrectos";
                     return View();
                 }
             }
@@ -100,9 +102,28 @@ namespace ProyectoInmobiliaria.Controllers
         {
             try
             {
-                int res = repositorioUsuario.Modificacion(i);
+                if (ModelState.IsValid)
+                {
+                   
 
-                return RedirectToAction(nameof(Index));
+                        i.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                            password: i.Clave,
+                            salt: System.Text.Encoding.ASCII.GetBytes("Salt"),
+                            prf: KeyDerivationPrf.HMACSHA1,
+                            iterationCount: 1000,
+                            numBytesRequested: 256 / 8));
+                        int res = repositorioUsuario.Modificacion(i);
+                        TempData["Mensaje"] = "Usuario Editado";
+                        return RedirectToAction(nameof(Index));
+                        
+                    }
+                    else
+                    {
+                        TempData["Mensaje"] = "Error al Editar, Verifique si los datos son correctos";
+                        return View();
+                    }
+
+                
             }
             catch
             {
@@ -125,9 +146,9 @@ namespace ProyectoInmobiliaria.Controllers
         public ActionResult Delete(int id, Usuario i)
         {
             try
-            {
+            { 
                 int res = repositorioUsuario.Baja(id);
-
+                TempData["Mensaje"] = "Usuario Eliminado";
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -147,12 +168,12 @@ namespace ProyectoInmobiliaria.Controllers
         try{
         if (ModelState.IsValid)
          {
-        /*string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+        string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
          password: login.Clave,
          salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
          prf: KeyDerivationPrf.HMACSHA1,
          iterationCount: 1000,
-         numBytesRequested: 256 / 8));*/
+         numBytesRequested: 256 / 8));
 
         var e = repositorioUsuario.ObtenerPorEmail(login.Email); 
         if (e == null /*|| e.Clave != hashed*/)
