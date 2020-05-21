@@ -68,7 +68,7 @@ Write(Html.ActionLink("Buscar Contratos Vigentes", "Busqueda", "Contrato"));
             WriteLiteral("</h4>\r\n\r\n<p>\r\n    ");
             EndContext();
             BeginContext(225, 37, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "85cd3b67fb4b4440bdeb092938949bab", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9075b7468de14360b1b6f940cc45b13d", async() => {
                 BeginContext(248, 10, true);
                 WriteLiteral("Create New");
                 EndContext();

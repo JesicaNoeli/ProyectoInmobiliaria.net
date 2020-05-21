@@ -71,7 +71,7 @@ namespace ProyectoInmobiliaria.Controllers
                 int res = repositorioPago.Alta(p);
                 TempData["Mensaje"] = "Pago registrado";
 
-                return View();
+                return RedirectToAction(nameof(Ver),new {id=p.IdContr});
 
             }
             catch (Exception ex)

@@ -61,7 +61,7 @@
                 @if (User.IsInRole("Administrador")) {
                     @Html.ActionLink("Eliminar", "Delete", new { id = item.IdProp })
                                                                                      }
-                    @Html.ActionLink("Ver Propiedades", "InmPorProp", "Propietario", new { id = item.IdProp })
+                    @Html.ActionLink("Ver Propiedades", "InmPorProp", "Inmuebles", new { id = item.IdProp })
                 </td>
     
             </tr>

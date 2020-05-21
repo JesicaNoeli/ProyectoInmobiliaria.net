@@ -75,6 +75,7 @@ namespace ProyectoInmobiliaria.Controllers
         {
             try
             {
+                ViewBag.Id = id;
                 var lista = repositorioContrato.ObtenerTodosPorInm(id);
                 return View(lista);
             }
@@ -139,7 +140,7 @@ namespace ProyectoInmobiliaria.Controllers
             {
                 // TODO: Add delete logic here
                 int res = repositorioContrato.Baja(id);
-                return RedirectToAction(nameof(Ver));
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {

@@ -297,10 +297,11 @@ namespace ProyectoInmobiliaria.Models
 				string sql = $"SELECT i.IdInm, Direccion, CantAmbientes, Tipo, Uso, Costo, i.IdProp, Disponible, " +
 					$"p.Nombre, p.Apellido "+ 
 					$" FROM Inmuebles i INNER JOIN Contratos c ON i.IdInm = c.IdInm  INNER JOIN Propietarios p ON i.IdProp = p.IdProp " +
-					$" WHERE ( @fechaInicio > FechaCierre) OR (FechaInicio > @fechaCierre)";
+					$" WHERE ( @fechaInicio > FechaCierre) OR (FechaInicio > @fechaCierre) "+
+					$"UNION SELECT i.IdInm, Direccion, CantAmbientes, Tipo, Uso, Costo, i.IdProp, Disponible, p.Nombre, p.Apellido FROM Inmuebles i INNER JOIN Propietarios p ON i.IdProp = p.IdProp WHERE i.IdInm NOT IN (SELECT i.IdInm FROM Inmuebles i INNER JOIN Contratos c ON i.IdInm = c.IdInm) ";
 				
 				using (SqlCommand command = new SqlCommand(sql, connection))
-				{
+				{ 
 					command.Parameters.Add("@fechaCierre", SqlDbType.DateTime).Value = f;
 					command.Parameters.Add("@fechaInicio", SqlDbType.DateTime).Value = i;
 					command.CommandType = CommandType.Text;
